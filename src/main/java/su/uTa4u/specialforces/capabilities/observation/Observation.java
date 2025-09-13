@@ -18,6 +18,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.registries.ForgeRegistries;
 import su.uTa4u.specialforces.Mission;
+import su.uTa4u.specialforces.SpecialForces;
 import su.uTa4u.specialforces.config.CommonConfig;
 import su.uTa4u.specialforces.entities.SwatEntity;
 
@@ -117,14 +118,14 @@ public class Observation implements IObservation {
                 possibleMissions.add(Mission.SIEGE);
                 possibleMissions.add(Mission.SABOTAGE);
                 this.swatMission = possibleMissions.get(player.getRandom().nextInt(possibleMissions.size()));
-
-                // Notify the player that new swat mission is about to start
-                serverPlayer.sendSystemMessage(this.swatMission.getMessage().append(", ").append(serverPlayer.getName()));
             }
 
-            // Spawn Mission Commander
-            if (this.swatMission == null) return;
+            // Spawn Mission Commanders if below max squad count and natural spawning is enabled
+            if (!serverLevel.getGameRules().getBoolean(SpecialForces.RULE_NATURAL_SPAWN)) return;
             if (this.commanders.size() >= CommonConfig.OBSERVATION_SQUAD_COUNT.get()) return;
+
+            // Notify the player that new swat mission is about to start
+            serverPlayer.sendSystemMessage(this.swatMission.getMessage().append(", ").append(serverPlayer.getName()));
 
             for (int i = 0; i < CommonConfig.OBSERVATION_SQUAD_COUNT.get(); ++i) {
                 SwatEntity commander = SwatEntity.commander(serverLevel, this.swatMission);

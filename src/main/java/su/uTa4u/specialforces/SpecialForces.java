@@ -12,6 +12,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.GameRules;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -39,6 +40,8 @@ import su.uTa4u.specialforces.menus.ModMenuTypes;
 public class SpecialForces {
     public static final String MOD_ID = "taczsf";
     // private static final Logger LOGGER = LogUtils.getLogger();
+
+    public static final GameRules.Key<GameRules.BooleanValue> RULE_NATURAL_SPAWN = GameRules.register("doAgentsSpawning", GameRules.Category.SPAWNING, GameRules.BooleanValue.create(true));
 
     public SpecialForces(FMLJavaModLoadingContext context) {
         IEventBus modBus = context.getModEventBus();

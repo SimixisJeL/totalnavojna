@@ -42,7 +42,7 @@ public enum Mission {
     }
 
     public MutableComponent getMessage() {
-        return this.message;
+        return this.message.copy();
     }
 
     public List<Specialty> getParticipants() {
