@@ -133,6 +133,7 @@ public class Observation implements IObservation {
                 commander.setPos(player.position());
                 Vec3 pos = LandRandomPos.getPos(commander, 64, 15);
                 if (pos == null) continue;
+                if (pos.distanceToSqr(player.position()) < 32 * 32) continue;
 
                 commander.setPos(pos);
                 commander.setTarget(player);

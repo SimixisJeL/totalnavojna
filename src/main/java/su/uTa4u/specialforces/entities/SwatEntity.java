@@ -182,6 +182,12 @@ public class SwatEntity extends PathfinderMob implements IGunOperator, Container
     }
 
     @Override
+    protected boolean isImmobile() {
+        // Moving dead/down agents is no more!
+        return this.getState() != STATE_ALIVE;
+    }
+
+    @Override
     public void heal(float healAmount) {
         // Can't heal from dying...
         if (this.getState() == STATE_DEAD) return;
@@ -217,7 +223,6 @@ public class SwatEntity extends PathfinderMob implements IGunOperator, Container
             // Swat Entity goes down. It can attack, but can't move.
             // Can heal and be healed, if health goes above the threshold, it goes up.
             this.setState(STATE_DOWN);
-            // TODO: Do something to actually stop it from moving completely
             // Why is this not enough?
             this.goalSelector.disableControlFlag(Goal.Flag.MOVE);
             // Whatever, this WILL be enough
@@ -231,7 +236,6 @@ public class SwatEntity extends PathfinderMob implements IGunOperator, Container
                 this.setHealth(1.0f);
                 this.removeFreeWill();
                 this.removeAllEffects();
-                this.setSpeed(0.0f);
                 this.deadBodyAge = 0;
                 // TODO: Maybe remove random items from inventory
                 return;
@@ -337,7 +341,9 @@ public class SwatEntity extends PathfinderMob implements IGunOperator, Container
             if (spec != null) this.setSpecialty(spec);
         }
 
-        if (nbt.contains(NBT_KEY_STATE)) this.setState(nbt.getByte(NBT_KEY_STATE));
+        if (nbt.contains(NBT_KEY_STATE)) {
+            this.setState(nbt.getByte(NBT_KEY_STATE));
+        }
 
         this.failedGunPosCounter = nbt.getInt(NBT_KEY_FAILED_GUN_POS_COUNTER);
 
