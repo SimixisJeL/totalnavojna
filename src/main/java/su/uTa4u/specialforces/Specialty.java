@@ -1,8 +1,15 @@
 package su.uTa4u.specialforces;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
+import su.uTa4u.specialforces.entities.SwatEntity;
+import su.uTa4u.specialforces.items.ModItems;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -63,6 +70,22 @@ public enum Specialty {
 
     public Component getTypeName() {
         return this.typeName;
+    }
+
+    public ItemStack getSpawnEgg() {
+        ItemStack egg = new ItemStack(ModItems.SWAT_SPAWN_EGG.get());
+        CompoundTag displayTag = egg.getOrCreateTagElement(ItemStack.TAG_DISPLAY);
+        if (displayTag.getTagType(ItemStack.TAG_LORE) == Tag.TAG_LIST) {
+            ListTag loreTag = displayTag.getList(ItemStack.TAG_LORE, Tag.TAG_STRING);
+            loreTag.add(StringTag.valueOf(Component.Serializer.toJson(this.typeName)));
+        } else {
+            ListTag loreTag = new ListTag();
+            loreTag.add(StringTag.valueOf(Component.Serializer.toJson(this.typeName)));
+            displayTag.put(ItemStack.TAG_LORE, loreTag);
+        }
+        CompoundTag entityTag = egg.getOrCreateTagElement("EntityTag");
+        entityTag.putString(SwatEntity.NBT_KEY_SPECIALTY, this.name);
+        return egg;
     }
 
     @Nullable

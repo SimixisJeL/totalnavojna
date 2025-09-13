@@ -190,6 +190,12 @@ public class SwatEntity extends PathfinderMob implements IGunOperator, Container
         return this.getState() != STATE_ALIVE;
     }
 
+    @Nullable
+    @Override
+    public ItemStack getPickResult() {
+        return this.getSpecialty().getSpawnEgg();
+    }
+
     @Override
     public void heal(float healAmount) {
         // Can't heal from dying...

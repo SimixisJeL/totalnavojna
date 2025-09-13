@@ -6,13 +6,7 @@ import net.minecraft.client.model.HumanoidArmorModel;
 import net.minecraft.client.model.geom.LayerDefinitions;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.entity.EntityRenderers;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
-import net.minecraft.nbt.Tag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -76,19 +70,7 @@ public class SpecialForces {
         public static void onCreativeModeTabContent(BuildCreativeModeTabContentsEvent event) {
             if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
                 for (Specialty spec : Specialty.VALUES) {
-                    ItemStack egg = new ItemStack(ModItems.SWAT_SPAWN_EGG.get());
-                    CompoundTag displayTag = egg.getOrCreateTagElement(ItemStack.TAG_DISPLAY);
-                    if (displayTag.getTagType(ItemStack.TAG_LORE) == Tag.TAG_LIST) {
-                        ListTag loreTag = displayTag.getList(ItemStack.TAG_LORE, Tag.TAG_STRING);
-                        loreTag.add(StringTag.valueOf(Component.Serializer.toJson(spec.getTypeName())));
-                    } else {
-                        ListTag loreTag = new ListTag();
-                        loreTag.add(StringTag.valueOf(Component.Serializer.toJson(spec.getTypeName())));
-                        displayTag.put(ItemStack.TAG_LORE, loreTag);
-                    }
-                    CompoundTag entityTag = egg.getOrCreateTagElement("EntityTag");
-                    entityTag.putString(SwatEntity.NBT_KEY_SPECIALTY, spec.getName());
-                    event.accept(egg);
+                    event.accept(spec.getSpawnEgg());
                 }
             }
         }
