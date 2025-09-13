@@ -76,11 +76,11 @@ import java.util.function.Supplier;
 
 public class SwatEntity extends PathfinderMob implements IGunOperator, Container, MenuProvider {
     // private static final Logger LOGGER = LogUtils.getLogger();
-    private static final String NBT_KEY_DEAD_BODE_AGE = "DeadBodyAge";
+    private static final String NBT_KEY_DEAD_BODY_AGE = "DeadBodyAge";
     private static final String NBT_KEY_MISSION = "Mission";
     private static final String NBT_KEY_SQUAD = "Squad";
     private static final String NBT_KEY_COMMANDER = "Commander";
-    private static final String NBT_KEY_SPECIALTY = "Specialty";
+    public static final String NBT_KEY_SPECIALTY = "Specialty";
     private static final String NBT_KEY_STATE = "State";
     private static final String NBT_KEY_INVENTORY = "Inventory";
     private static final String NBT_KEY_SLOT = "Slot";
@@ -144,9 +144,8 @@ public class SwatEntity extends PathfinderMob implements IGunOperator, Container
     @Override
     @SuppressWarnings("deprecation")
     public SpawnGroupData finalizeSpawn(@NotNull ServerLevelAccessor levelAccessor, @NotNull DifficultyInstance difficulty, @NotNull MobSpawnType spawnType, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag dataTag) {
-        if (spawnType == MobSpawnType.SPAWNER || spawnType == MobSpawnType.SPAWN_EGG) {
+        if (spawnType == MobSpawnType.SPAWNER) {
             this.setSpecialty(Specialty.getRandomSpecialty());
-//            LOGGER.info("Random Spec: " + this.getSpecialty());
         }
 
         // TODO: give all loottables pool names
@@ -309,7 +308,7 @@ public class SwatEntity extends PathfinderMob implements IGunOperator, Container
 
         nbt.putInt(NBT_KEY_SQUAD_SUMMON_TIMER, this.squadSummonTimer);
 
-        nbt.putShort(NBT_KEY_DEAD_BODE_AGE, this.deadBodyAge);
+        nbt.putShort(NBT_KEY_DEAD_BODY_AGE, this.deadBodyAge);
 
         if (this.mission != null) {
             nbt.putString(NBT_KEY_MISSION, this.mission.getName());
@@ -344,7 +343,7 @@ public class SwatEntity extends PathfinderMob implements IGunOperator, Container
 
         this.squadSummonTimer = nbt.getInt(NBT_KEY_SQUAD_SUMMON_TIMER);
 
-        this.deadBodyAge = nbt.getShort(NBT_KEY_DEAD_BODE_AGE);
+        this.deadBodyAge = nbt.getShort(NBT_KEY_DEAD_BODY_AGE);
 
         if (nbt.contains(NBT_KEY_MISSION)) {
             Mission mission = Mission.byName(nbt.getString(NBT_KEY_MISSION));
@@ -476,7 +475,7 @@ public class SwatEntity extends PathfinderMob implements IGunOperator, Container
             }
         }
 
-        // Out of guns... Let's go with fists
+        // Out of guns... Let's go throw hands
         if (potentialNextGuns.isEmpty()) {
             // TODO: remove GunAttackGoal and add MeleeAttackGoal instead
             return;

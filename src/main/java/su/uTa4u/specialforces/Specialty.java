@@ -24,8 +24,8 @@ public enum Specialty {
     SPY("spy", 0.3f);
 
     private static final Random RNG = new Random();
-    private static final Specialty[] VALUES = values();
-    private static final int SIZE = VALUES.length;
+    public static final Specialty[] VALUES = values();
+    public static final int SIZE = VALUES.length;
 
     private static final Map<String, Specialty> SPECIALTY_BY_NAME = new HashMap<>();
 

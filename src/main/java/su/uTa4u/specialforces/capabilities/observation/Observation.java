@@ -119,7 +119,7 @@ public class Observation implements IObservation {
                 this.swatMission = possibleMissions.get(player.getRandom().nextInt(possibleMissions.size()));
 
                 // Notify the player that new swat mission is about to start
-                serverPlayer.sendSystemMessage(this.swatMission.getMessage().append(", ").append(serverPlayer.getDisplayName()));
+                serverPlayer.sendSystemMessage(this.swatMission.getMessage().append(", ").append(serverPlayer.getName()));
             }
 
             // Spawn Mission Commander
