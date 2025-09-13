@@ -19,10 +19,7 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.NbtUtils;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.*;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -34,6 +31,8 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
@@ -60,10 +59,7 @@ import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import su.uTa4u.specialforces.Mission;
-import su.uTa4u.specialforces.ModTags;
-import su.uTa4u.specialforces.Specialty;
-import su.uTa4u.specialforces.Util;
+import su.uTa4u.specialforces.*;
 import su.uTa4u.specialforces.config.CommonConfig;
 import su.uTa4u.specialforces.entities.goals.GunAttackGoal;
 import su.uTa4u.specialforces.entities.goals.GunPosGoal;
@@ -75,22 +71,22 @@ import java.util.*;
 import java.util.function.Supplier;
 
 public class SwatEntity extends PathfinderMob implements IGunOperator, Container, MenuProvider {
-    // private static final Logger LOGGER = LogUtils.getLogger();
     private static final String NBT_KEY_DEAD_BODY_AGE = "DeadBodyAge";
     private static final String NBT_KEY_MISSION = "Mission";
     private static final String NBT_KEY_SQUAD = "Squad";
     private static final String NBT_KEY_COMMANDER = "Commander";
-    public static final String NBT_KEY_SPECIALTY = "Specialty";
     private static final String NBT_KEY_STATE = "State";
     private static final String NBT_KEY_INVENTORY = "Inventory";
     private static final String NBT_KEY_SLOT = "Slot";
     private static final String NBT_KEY_SELECTED = "Selected";
     private static final String NBT_KEY_SQUAD_SUMMON_TIMER = "SquadTimer";
     private static final String NBT_KEY_FAILED_GUN_POS_COUNTER = "GunPosCounter";
+    public static final String NBT_KEY_SPECIALTY = "Specialty";
 
     private static final EntityDimensions BOX_DIMENSIONS = EntityDimensions.scalable(0.6f, 0.6f);
     private static final EntityDataAccessor<Specialty> SPECIALTY = SynchedEntityData.defineId(SwatEntity.class, ModEntityDataSerializers.SPECIAL_FORCE_SPECIALTY);
     private static final EntityDataAccessor<Byte> STATE = SynchedEntityData.defineId(SwatEntity.class, EntityDataSerializers.BYTE);
+    // TODO: I remember that I didn't make this an enum because of some error, but idr what error. Try again?
     public static final byte STATE_ALIVE = 0;
     public static final byte STATE_DOWN = 1;
     public static final byte STATE_DEAD = 2;
@@ -145,7 +141,14 @@ public class SwatEntity extends PathfinderMob implements IGunOperator, Container
     @SuppressWarnings("deprecation")
     public SpawnGroupData finalizeSpawn(@NotNull ServerLevelAccessor levelAccessor, @NotNull DifficultyInstance difficulty, @NotNull MobSpawnType spawnType, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag dataTag) {
         if (spawnType == MobSpawnType.SPAWNER) {
-            this.setSpecialty(Specialty.getRandomSpecialty());
+            this.setSpecialty(Specialty.getRandom());
+        } else if (spawnType == MobSpawnType.SPAWN_EGG || spawnType == MobSpawnType.COMMAND) {
+            if (dataTag != null) {
+                String spec = dataTag.getCompound("EntityTag").getString(NBT_KEY_SPECIALTY);
+                if (!spec.isEmpty()) {
+                    this.setSpecialty(Specialty.byName(spec));
+                }
+            }
         }
 
         // TODO: give all loottables pool names
@@ -421,7 +424,18 @@ public class SwatEntity extends PathfinderMob implements IGunOperator, Container
     }
 
     private void copySpecialAttributes() {
-        this.getAttributes().assignValues(this.getSpecialty().getAttributes());
+        Specialty spec = this.getSpecialty();
+        for (var e : CommonConfig.SPECIALTY_ATTRIBUTES.get(spec).entrySet()) {
+            Attribute attr = e.getKey();
+            AttributeInstance inst = this.getAttributes().getInstance(attr);
+            if (inst == null) {
+                SpecialForces.LOGGER.error("An error occurred when replacing attribute {} of specialty: {}", attr, spec);
+                continue;
+            }
+            AttributeInstance newInst = new AttributeInstance(attr, (a) -> {});
+            newInst.setBaseValue(e.getValue().get());
+            inst.replaceFrom(newInst);
+        }
         this.setHealth(this.getMaxHealth());
     }
 

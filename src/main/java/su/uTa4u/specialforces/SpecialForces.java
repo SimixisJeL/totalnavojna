@@ -1,5 +1,6 @@
 package su.uTa4u.specialforces;
 
+import com.mojang.logging.LogUtils;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.model.HumanoidArmorModel;
 import net.minecraft.client.model.geom.LayerDefinitions;
@@ -24,6 +25,7 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.slf4j.Logger;
 import su.uTa4u.specialforces.capabilities.observation.Observation;
 import su.uTa4u.specialforces.client.ModModelLayers;
 import su.uTa4u.specialforces.client.models.SwatModel;
@@ -39,7 +41,7 @@ import su.uTa4u.specialforces.menus.ModMenuTypes;
 @Mod(SpecialForces.MOD_ID)
 public class SpecialForces {
     public static final String MOD_ID = "taczsf";
-    // private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     public static final GameRules.Key<GameRules.BooleanValue> RULE_NATURAL_SPAWN = GameRules.register("doAgentsSpawning", GameRules.Category.SPAWNING, GameRules.BooleanValue.create(true));
 
@@ -74,7 +76,7 @@ public class SpecialForces {
         public static void onCreativeModeTabContent(BuildCreativeModeTabContentsEvent event) {
             if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
                 for (Specialty spec : Specialty.VALUES) {
-                    ItemStack egg = ModItems.SWAT_SPAWN_EGG.get().getDefaultInstance();
+                    ItemStack egg = new ItemStack(ModItems.SWAT_SPAWN_EGG.get());
                     CompoundTag displayTag = egg.getOrCreateTagElement(ItemStack.TAG_DISPLAY);
                     if (displayTag.getTagType(ItemStack.TAG_LORE) == Tag.TAG_LIST) {
                         ListTag loreTag = displayTag.getList(ItemStack.TAG_LORE, Tag.TAG_STRING);
@@ -102,7 +104,6 @@ public class SpecialForces {
         @SubscribeEvent
         public static void onModConfigLoadingEvent(ModConfigEvent.Loading event) {
             if (event.getConfig().getSpec() == CommonConfig.SPEC) {
-                Specialty.loadAttributesFromConfig();
                 Mission.loadParticipantsFromConfig();
                 Observation.loadTargetsFromConfig();
             }
@@ -111,7 +112,6 @@ public class SpecialForces {
         @SubscribeEvent
         public static void onModConfigReloadingEvent(ModConfigEvent.Reloading event) {
             if (event.getConfig().getSpec() == CommonConfig.SPEC) {
-                Specialty.loadAttributesFromConfig();
                 Mission.loadParticipantsFromConfig();
                 Observation.loadTargetsFromConfig();
             }
