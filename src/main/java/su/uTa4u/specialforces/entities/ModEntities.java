@@ -16,7 +16,7 @@ public class ModEntities {
         ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, SpecialForces.MOD_ID);
 
         SWAT_ENTITY = ENTITY_TYPES.register("swat_entity",
-                () -> EntityType.Builder.of(SwatEntity::new, MobCategory.CREATURE)
+                () -> EntityType.Builder.of(SwatEntity::new, MobCategory.MONSTER)
                         .sized(0.6f, 1.8f)
                         .build("swat_entity"));
     }

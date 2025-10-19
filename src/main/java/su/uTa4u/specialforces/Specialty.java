@@ -6,6 +6,7 @@ import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import su.uTa4u.specialforces.entities.SwatEntity;
@@ -36,12 +37,15 @@ public enum Specialty {
     //  Entities should not aim at head/body if view is not clear
     private final float headAimChance;
 
+    private ItemStack spawnEgg;
+
     Specialty(String name, float headAimChance) {
         this.name = name;
         this.skin = Util.getResource("textures/entity/" + name + ".png");
         this.headAimChance = headAimChance;
         this.lootTable = Util.getResource("spawn_inv/" + name);
         this.typeName = Component.translatable("entity." + SpecialForces.MOD_ID + "." + name);
+        this.spawnEgg = null;
     }
 
     public static Specialty getRandom() {
@@ -68,20 +72,18 @@ public enum Specialty {
         return this.typeName;
     }
 
-    // TODO: save in a field
     public ItemStack getSpawnEgg() {
-        ItemStack egg = new ItemStack(ModItems.SWAT_SPAWN_EGG.get());
-        CompoundTag displayTag = egg.getOrCreateTagElement(ItemStack.TAG_DISPLAY);
-        ListTag loreTag;
-        if (displayTag.getTagType(ItemStack.TAG_LORE) == Tag.TAG_LIST) {
-            loreTag = displayTag.getList(ItemStack.TAG_LORE, Tag.TAG_STRING);
-        } else {
-            loreTag = new ListTag();
-            displayTag.put(ItemStack.TAG_LORE, loreTag);
+        if (this.spawnEgg == null) {
+            this.spawnEgg = new ItemStack(ModItems.SWAT_SPAWN_EGG.get());
+            CompoundTag displayTag = this.spawnEgg.getOrCreateTagElement(ItemStack.TAG_DISPLAY);
+            ListTag loreTag = displayTag.getList(ItemStack.TAG_LORE, Tag.TAG_STRING);
+            if (!displayTag.contains(ItemStack.TAG_LORE, Tag.TAG_LIST)) {
+                displayTag.put(ItemStack.TAG_LORE, loreTag);
+            }
+            loreTag.add(StringTag.valueOf(Component.Serializer.toJson(this.typeName)));
+            this.spawnEgg.getOrCreateTagElement(EntityType.ENTITY_TAG).putString(SwatEntity.NBT_KEY_SPECIALTY, this.name);
         }
-        loreTag.add(StringTag.valueOf(Component.Serializer.toJson(this.typeName)));
-        egg.getOrCreateTag().putString(SwatEntity.NBT_KEY_SPECIALTY, this.name);
-        return egg;
+        return this.spawnEgg.copy();
     }
 
     @Nullable

@@ -76,7 +76,6 @@ import java.util.function.Supplier;
 // TODO:
 //  - only trigger siege mission if player is near the spawn point
 //  - add structures
-//  - change MobCategory to monster
 
 public class SwatEntity extends PathfinderMob implements IGunOperator, Container, MenuProvider {
     private static final String NBT_KEY_DEAD_BODY_AGE = "DeadBodyAge";
@@ -150,9 +149,18 @@ public class SwatEntity extends PathfinderMob implements IGunOperator, Container
     public SpawnGroupData finalizeSpawn(@NotNull ServerLevelAccessor levelAccessor, @NotNull DifficultyInstance difficulty, @NotNull MobSpawnType spawnType, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag dataTag) {
         if (spawnType == MobSpawnType.SPAWNER) {
             this.setSpecialty(Specialty.getRandom());
-        }
-        if (dataTag != null) {
-            this.load(dataTag);
+        } else if (spawnType == MobSpawnType.COMMAND) {
+            if (dataTag != null) {
+                this.load(dataTag);
+            }
+        } else if (spawnType == MobSpawnType.SPAWN_EGG) {
+            if (dataTag != null && dataTag.contains(EntityType.ENTITY_TAG, Tag.TAG_COMPOUND)) {
+                CompoundTag compoundtag = this.saveWithoutId(new CompoundTag());
+                UUID uuid = this.getUUID();
+                compoundtag.merge(dataTag.getCompound(EntityType.ENTITY_TAG));
+                this.setUUID(uuid);
+                this.load(compoundtag);
+            }
         }
 
         // TODO: give all loottables pool names
