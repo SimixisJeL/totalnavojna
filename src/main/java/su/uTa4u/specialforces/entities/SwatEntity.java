@@ -19,7 +19,10 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
-import net.minecraft.nbt.*;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -69,6 +72,11 @@ import su.uTa4u.specialforces.menus.SwatCorpseMenu;
 
 import java.util.*;
 import java.util.function.Supplier;
+
+// TODO:
+//  - only trigger siege mission if player is near the spawn point
+//  - add structures
+//  - change MobCategory to monster
 
 public class SwatEntity extends PathfinderMob implements IGunOperator, Container, MenuProvider {
     private static final String NBT_KEY_DEAD_BODY_AGE = "DeadBodyAge";
@@ -142,13 +150,9 @@ public class SwatEntity extends PathfinderMob implements IGunOperator, Container
     public SpawnGroupData finalizeSpawn(@NotNull ServerLevelAccessor levelAccessor, @NotNull DifficultyInstance difficulty, @NotNull MobSpawnType spawnType, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag dataTag) {
         if (spawnType == MobSpawnType.SPAWNER) {
             this.setSpecialty(Specialty.getRandom());
-        } else if (spawnType == MobSpawnType.SPAWN_EGG || spawnType == MobSpawnType.COMMAND) {
-            if (dataTag != null) {
-                String spec = dataTag.getCompound("EntityTag").getString(NBT_KEY_SPECIALTY);
-                if (!spec.isEmpty()) {
-                    this.setSpecialty(Specialty.byName(spec));
-                }
-            }
+        }
+        if (dataTag != null) {
+            this.load(dataTag);
         }
 
         // TODO: give all loottables pool names
@@ -240,6 +244,13 @@ public class SwatEntity extends PathfinderMob implements IGunOperator, Container
             if (hpAfterDmg <= 0.0f) {
                 // Swat Entity is dead. Can't attack, move or be moved.
                 // Will despawn after some time, will despawn faster if inventory is empty.
+                if (CommonConfig.SWAT_ENTITY_NO_CORPSE.get()) {
+                    this.compartments.forEach((comp) -> comp.forEach(this::spawnAtLocation));
+                    this.die(damageSource);
+                    this.remove(RemovalReason.KILLED);
+                    return;
+                }
+
                 this.setState(STATE_DEAD);
                 this.setInvulnerable(true);
                 this.setHealth(1.0f);
@@ -438,7 +449,8 @@ public class SwatEntity extends PathfinderMob implements IGunOperator, Container
                 SpecialForces.LOGGER.error("An error occurred when replacing attribute {} of specialty: {}", attr, spec);
                 continue;
             }
-            AttributeInstance newInst = new AttributeInstance(attr, (a) -> {});
+            AttributeInstance newInst = new AttributeInstance(attr, (a) -> {
+            });
             newInst.setBaseValue(e.getValue().get());
             inst.replaceFrom(newInst);
         }

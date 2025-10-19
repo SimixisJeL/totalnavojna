@@ -89,6 +89,11 @@ dependencies {
 //    runtimeOnly fg.deobf("curse.maven:apotheosis-313970:6461960")
 }
 
+mixin {
+    add sourceSets.main, "${mod_id}.refmap.json"
+    config "${mod_id}.mixins.json"
+}
+
 tasks.named('processResources', ProcessResources).configure {
     var replaceProperties = [
             minecraft_version: minecraft_version, minecraft_version_range: minecraft_version_range,

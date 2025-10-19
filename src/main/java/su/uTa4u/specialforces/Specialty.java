@@ -11,8 +11,6 @@ import org.jetbrains.annotations.Nullable;
 import su.uTa4u.specialforces.entities.SwatEntity;
 import su.uTa4u.specialforces.items.ModItems;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 public enum Specialty {
@@ -29,8 +27,6 @@ public enum Specialty {
     private static final Random RNG = new Random();
     public static final Specialty[] VALUES = values();
     public static final int SIZE = VALUES.length;
-
-    private static final Map<String, Specialty> SPECIALTY_BY_NAME = new HashMap<>();
 
     private final String name;
     private final ResourceLocation skin;
@@ -72,30 +68,35 @@ public enum Specialty {
         return this.typeName;
     }
 
+    // TODO: save in a field
     public ItemStack getSpawnEgg() {
         ItemStack egg = new ItemStack(ModItems.SWAT_SPAWN_EGG.get());
         CompoundTag displayTag = egg.getOrCreateTagElement(ItemStack.TAG_DISPLAY);
+        ListTag loreTag;
         if (displayTag.getTagType(ItemStack.TAG_LORE) == Tag.TAG_LIST) {
-            ListTag loreTag = displayTag.getList(ItemStack.TAG_LORE, Tag.TAG_STRING);
-            loreTag.add(StringTag.valueOf(Component.Serializer.toJson(this.typeName)));
+            loreTag = displayTag.getList(ItemStack.TAG_LORE, Tag.TAG_STRING);
         } else {
-            ListTag loreTag = new ListTag();
-            loreTag.add(StringTag.valueOf(Component.Serializer.toJson(this.typeName)));
+            loreTag = new ListTag();
             displayTag.put(ItemStack.TAG_LORE, loreTag);
         }
-        CompoundTag entityTag = egg.getOrCreateTagElement("EntityTag");
-        entityTag.putString(SwatEntity.NBT_KEY_SPECIALTY, this.name);
+        loreTag.add(StringTag.valueOf(Component.Serializer.toJson(this.typeName)));
+        egg.getOrCreateTag().putString(SwatEntity.NBT_KEY_SPECIALTY, this.name);
         return egg;
     }
 
     @Nullable
     public static Specialty byName(String name) {
-        return SPECIALTY_BY_NAME.get(name);
-    }
-
-    static {
-        for (Specialty spec : VALUES) {
-            SPECIALTY_BY_NAME.put(spec.name, spec);
-        }
+        return switch (name) {
+            case "commander" -> COMMANDER;
+            case "assaulter" -> ASSAULTER;
+            case "grenadier" -> GRENADIER;
+            case "bulldozer" -> BULLDOZER;
+            case "engineer" -> ENGINEER;
+            case "sniper" -> SNIPER;
+            case "medic" -> MEDIC;
+            case "scout" -> SCOUT;
+            case "spy" -> SPY;
+            default -> null;
+        };
     }
 }

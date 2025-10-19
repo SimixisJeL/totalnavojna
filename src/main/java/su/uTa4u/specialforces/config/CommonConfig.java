@@ -29,6 +29,7 @@ public final class CommonConfig {
     public static ForgeConfigSpec.IntValue SWAT_ENTITY_DEAD_BODY_LIFESPAN;
     public static ForgeConfigSpec.IntValue SWAT_ENTITY_FAILED_GUN_POS_LIMIT;
     public static ForgeConfigSpec.IntValue SWAT_ENTITY_HOLD_POSITION_DURATION;
+    public static ForgeConfigSpec.BooleanValue SWAT_ENTITY_NO_CORPSE;
 
     public static EnumMap<Mission, ForgeConfigSpec.ConfigValue<List<? extends String>>> MISSION_PARTICIPANTS;
 
@@ -99,6 +100,10 @@ public final class CommonConfig {
                 .comment("Higher values means less tps lag.")
                 .comment("Default: 300")
                 .defineInRange("holdPosDuration", 300, 1, Integer.MAX_VALUE);
+        SWAT_ENTITY_NO_CORPSE = builder
+                .comment("Should a corpse be left behind.")
+                .comment("Default: false")
+                .define("noCorpse", false);
 
         builder.pop();
 
