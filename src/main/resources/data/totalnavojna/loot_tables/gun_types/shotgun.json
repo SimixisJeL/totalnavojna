@@ -1,0 +1,30 @@
+{
+  "type": "empty",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "weight": 1,
+          "name": "totalnavojna:guns/db_short"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "weight": 1,
+          "name": "totalnavojna:guns/db_long"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "weight": 1,
+          "name": "totalnavojna:guns/aa12"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "weight": 1,
+          "name": "totalnavojna:guns/m870"
+        }
+      ]
+    }
+  ]
+}

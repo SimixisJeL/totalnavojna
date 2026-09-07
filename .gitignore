@@ -26,3 +26,6 @@ forge*changelog.txt
 
 # custom
 notes.txt
+
+# third-party build input, not ours to redistribute (Superb Warfare)
+libs/

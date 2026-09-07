@@ -1,12 +1,12 @@
 modLoader="javafml" #mandatory
 loaderVersion="${loader_version_range}" #mandatory
 license="${mod_license}"
-issueTrackerURL="https://github.com/uTa4u/TACZ-Special-Forces/issues" #optional
+credits="Fork of TACZ-Special-Forces (GPL-3.0) by uTa4u - github.com/uTa4u/TACZ-Special-Forces"
 [[mods]] #mandatory
 modId="${mod_id}" #mandatory
 version="${mod_version}" #mandatory
-displayName="${mod_name}" #mandatory
-displayURL="https://github.com/uTa4u/TACZ-Special-Forces" #optional
+displayName="TotĂˇlna Vojna" #mandatory
+
 logoFile="${mod_id}.png" #optional
 authors="${mod_authors}" #optional
 description='''${mod_description}'''
@@ -15,6 +15,13 @@ description='''${mod_description}'''
     modId="tacz" #mandatory
     mandatory=true #mandatory
     versionRange="[0,)" #mandatory
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="superbwarfare"
+    mandatory=true
+    versionRange="[0.8.9,)"
     ordering="AFTER"
     side="BOTH"
 

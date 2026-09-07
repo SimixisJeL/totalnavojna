@@ -1,0 +1,35 @@
+{
+  "type": "empty",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "weight": 1,
+          "name": "totalnavojna:guns/uzi"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "weight": 1,
+          "name": "totalnavojna:guns/vector45"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "weight": 1,
+          "name": "totalnavojna:guns/hk_mp5a5"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "weight": 1,
+          "name": "totalnavojna:guns/ump45"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "weight": 1,
+          "name": "totalnavojna:guns/p90"
+        }
+      ]
+    }
+  ]
+}

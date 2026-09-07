@@ -1,0 +1,281 @@
+{
+  "voice.radio_contact": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "totalnavojna:voice/radio_contact",
+        "stream": false
+      }
+    ]
+  },
+  "voice.radio_under_fire": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "totalnavojna:voice/radio_under_fire",
+        "stream": false
+      }
+    ]
+  },
+  "voice.radio_man_down": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "totalnavojna:voice/radio_man_down",
+        "stream": false
+      }
+    ]
+  },
+  "voice.radio_no_ammo": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "totalnavojna:voice/radio_no_ammo",
+        "stream": false
+      }
+    ]
+  },
+  "voice.radio_nexus_attack": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "totalnavojna:voice/radio_nexus_attack",
+        "stream": false
+      }
+    ]
+  },
+  "voice.radio_point_taken": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "totalnavojna:voice/radio_point_taken",
+        "stream": false
+      }
+    ]
+  },
+  "voice.radio_point_lost": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "totalnavojna:voice/radio_point_lost",
+        "stream": false
+      }
+    ]
+  },
+  "voice.radio_drone_up": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "totalnavojna:voice/radio_drone_up",
+        "stream": false
+      }
+    ]
+  },
+  "voice.radio_drone_hit": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "totalnavojna:voice/radio_drone_hit",
+        "stream": false
+      }
+    ]
+  },
+  "voice.radio_enemy_vehicle": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "totalnavojna:voice/radio_enemy_vehicle",
+        "stream": false
+      }
+    ]
+  },
+  "voice.radio_flanking": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "totalnavojna:voice/radio_flanking",
+        "stream": false
+      }
+    ]
+  },
+  "voice.radio_falling_back": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "totalnavojna:voice/radio_falling_back",
+        "stream": false
+      }
+    ]
+  },
+  "voice.radio_victory": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "totalnavojna:voice/radio_victory",
+        "stream": false
+      }
+    ]
+  },
+  "voice.radio_defeat": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "totalnavojna:voice/radio_defeat",
+        "stream": false
+      }
+    ]
+  },
+  "voice.spawn_1": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "totalnavojna:voice/spawn_1",
+        "stream": false
+      }
+    ]
+  },
+  "voice.spawn_2": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "totalnavojna:voice/spawn_2",
+        "stream": false
+      }
+    ]
+  },
+  "voice.spawn_3": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "totalnavojna:voice/spawn_3",
+        "stream": false
+      }
+    ]
+  },
+  "voice.spawn_4": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "totalnavojna:voice/spawn_4",
+        "stream": false
+      }
+    ]
+  },
+  "voice.spawn_5": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "totalnavojna:voice/spawn_5",
+        "stream": false
+      }
+    ]
+  },
+  "voice.death_1": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "totalnavojna:voice/death_1",
+        "stream": false
+      }
+    ]
+  },
+  "voice.death_2": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "totalnavojna:voice/death_2",
+        "stream": false
+      }
+    ]
+  },
+  "voice.death_3": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "totalnavojna:voice/death_3",
+        "stream": false
+      }
+    ]
+  },
+  "voice.death_4": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "totalnavojna:voice/death_4",
+        "stream": false
+      }
+    ]
+  },
+  "voice.death_5": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "totalnavojna:voice/death_5",
+        "stream": false
+      }
+    ]
+  },
+  "voice.death_6": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "totalnavojna:voice/death_6",
+        "stream": false
+      }
+    ]
+  },
+  "voice.kill_1": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "totalnavojna:voice/kill_1",
+        "stream": false
+      }
+    ]
+  },
+  "voice.kill_2": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "totalnavojna:voice/kill_2",
+        "stream": false
+      }
+    ]
+  },
+  "voice.kill_3": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "totalnavojna:voice/kill_3",
+        "stream": false
+      }
+    ]
+  },
+  "voice.revive_1": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "totalnavojna:voice/revive_1",
+        "stream": false
+      }
+    ]
+  },
+  "voice.revive_2": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "totalnavojna:voice/revive_2",
+        "stream": false
+      }
+    ]
+  },
+  "voice.revive_3": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "totalnavojna:voice/revive_3",
+        "stream": false
+      }
+    ]
+  }
+}

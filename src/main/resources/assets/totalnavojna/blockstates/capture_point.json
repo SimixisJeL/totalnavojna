@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "owner=0": { "model": "totalnavojna:block/capture_point_neutral" },
+    "owner=1": { "model": "totalnavojna:block/capture_point_oliva" },
+    "owner=2": { "model": "totalnavojna:block/capture_point_piesok" }
+  }
+}

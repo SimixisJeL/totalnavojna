@@ -1,0 +1,40 @@
+{
+  "type": "empty",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "weight": 1,
+          "name": "totalnavojna:guns/deagle"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "weight": 1,
+          "name": "totalnavojna:guns/deagle_golden"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "weight": 1,
+          "name": "totalnavojna:guns/cz75"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "weight": 1,
+          "name": "totalnavojna:guns/glock_17"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "weight": 1,
+          "name": "totalnavojna:guns/p320"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "weight": 1,
+          "name": "totalnavojna:guns/m1911"
+        }
+      ]
+    }
+  ]
+}
